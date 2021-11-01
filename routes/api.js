@@ -10,7 +10,7 @@ const db = require('../db/db.json');
 const savedNotes = db && db.length ? db : [];
 
 router.get('/api/notes', (req, res) => {
-    readFromFile(savedNotes).then((data) => res.json(JSON.parse(data)));
+    res.json(savedNotes);
 });
 
 router.post('/api/notes', (req, res) => {
@@ -22,11 +22,17 @@ router.post('/api/notes', (req, res) => {
         text,
         note_id: uuidv4(),
       };
-  
+  savedNotes.push(newNote);
+
       readAndAppend(newNote, './db/db.json');
-      res.json(`Note added successfully 🚀`);
+      const response = {
+        status: 'success',
+        body: newNote,
+      };
+  
+      res.json(response);
     } else {
-      res.error('Error in adding Note');
+      res.json('Error in posting note');
     }
 
 }
