@@ -6,7 +6,7 @@ const {
     writeToFile,
   } = require('../helpers/fsUtils');
 const db = require('../db/db.json');
-const fs = require('fs');
+// const fs = require('fs');
 const savedNotes = db && db.length ? db : [];
 
 router.get('/api/notes', (req, res) => {
@@ -37,7 +37,7 @@ router.get('/:note_id', (req, res) => {
   readFromFile(savedNotes)
     .then((data) => JSON.parse(data))
     .then((json) => {
-      const result = json.filter((note) => note.note_id === NoteId);
+      const result = json.filter((note) => note.note_id === noteId);
       return result.length > 0
         ? res.json(result)
         : res.json('No Note with that ID');
